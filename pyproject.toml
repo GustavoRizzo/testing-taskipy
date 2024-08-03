@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "poc-taskipy"
+version = "0.1.0"
+description = "testing taskipy"
+authors = ["Gustavo Rizzo S M de Albuquerque <grizzo.albu@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.12.4"
+django = "^4.2.0"
+
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.13.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.taskipy.tasks]
+server = "python ./manage.py runserver"
+migrate = "python ./manage.py migrate"
+createsuperuser = "python ./manage.py createsuperuser"
+setup = "task migrate && task createsuperuser"
