@@ -61,10 +61,11 @@ COPY . /app/
 
 # Collect static files
 WORKDIR /app
-# RUN python manage.py collectstatic --noinput
+# RUN poetry run python manage.py collectstatic --noinput
 
 # Open port
 EXPOSE 8000
 
 # Run the server
-CMD gunicorn -c gunicorn.py "kernel.wsgi:application"
+RUN poetry add gunicorn
+CMD poetry run gunicorn -c gunicorn.py "poc.wsgi:application"
