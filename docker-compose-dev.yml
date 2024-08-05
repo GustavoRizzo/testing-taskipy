@@ -1,0 +1,22 @@
+services:
+    backend-dev:
+        image: ${BACKEND_DEV_IMAGE}
+        extends:
+            file: docker-compose.yml
+            service: backend
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+            target: dev
+        volumes:
+            - ./:/app
+            - ./data:/app/data
+            - ./logs:/app/logs
+            - ./media:/app/media
+        # Force the container to stay alive
+        tty: true
+
+volumes:
+    db-data:
+    app-log-data:
+    app-media:

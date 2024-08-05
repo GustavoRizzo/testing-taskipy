@@ -1,0 +1,65 @@
+x-global-args: &global-args
+    args:
+        - ENV_RUN=${ENV_RUN-development}
+        - SYSTEM_VERSION=${SYSTEM_VERSION}
+        - NODE_ENV=${NODE_ENV-development}
+        - NODE_VERSION=${NODE_VERSION}
+        - PYTHON_VERSION=${PYTHON_VERSION}
+
+services:
+    backend: &backend-service
+        image: ${BACKEND_IMAGE}
+        restart: unless-stopped
+        build:
+            context: "./"
+            dockerfile: "./Dockerfile"
+            <<: *global-args
+        init: true
+        env_file:
+            - "./.env"
+        environment:
+            # Database
+            DATABASE_HOST: ${DATABASE_HOST-postgres}
+            DATABASE_NAME: ${DATABASE_NAME-}
+            DATABASE_USERNAME: ${DATABASE_USERNAME-}
+            DATABASE_PASSWORD: ${DATABASE_PASSWORD-}
+            # System
+            SECRET_KEY: ${SECRET_KEY-}
+            CORS_WHITELIST: ${CORS_WHITELIST}
+            SMTP_HOST: ${SMTP_HOST-}
+            SMTP_PORT: ${SMTP_PORT-}
+            SMTP_USERNAME: ${SMTP_USERNAME-}
+            SMTP_PASSWORD: ${SMTP_PASSWORD-}
+        hostname: "backend"
+        ports:
+            - "${DOCKER_BE_PORT-8000}:8000"
+        volumes:
+            - "app-data:/app/data"
+            # - "app-log-data:/app/logs"
+            # - "app-media:/app/media"
+
+    postgres:
+        image: postgres:15-alpine
+        init: true
+        restart: unless-stopped
+        hostname: "postgres"
+        environment:
+            PGHOST: ${DB_HOST-postgres}
+            PGPORT: ${DB_PORT-5432}
+            POSTGRES_USER: ${DATABASE_USERNAME-}
+            POSTGRES_DB: ${DATABASE_NAME-}
+            POSTGRES_PASSWORD: ${DATABASE_PASSWORD-}
+            PGPASSWORD: ${DATABASE_PASSWORD-}
+            POSTGRES_INITDB_ARGS: ${POSTGRES_INITDB_ARGS-"--lc-collate=C --lc-ctype=C -c shared_buffers=256MB -c log_timezone=UTC -c max_connections=200"}
+        ports:
+            # Expose port only to localhost
+            - "127.0.0.1:${DOCKER_DB_PORT:-5432}:5432"
+        volumes:
+            - "psql-data:/var/lib/postgresql/data"
+
+
+volumes:
+    psql-data:
+    app-data:
+    app-log-data:
+    app-media:
