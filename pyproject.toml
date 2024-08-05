@@ -32,13 +32,13 @@ SERVICES_DEV = "backend-dev"
 use_vars = true
 
 [tool.taskipy.tasks]
-server = "python ./manage.py runserver"
-migrate = "python ./manage.py migrate"
-createsuperuser = "python ./manage.py createsuperuser"
-setup = "task migrate && task createsuperuser"
+server = { cmd="python ./manage.py runserver", help="Run the server" }
+migrate = { cmd="python ./manage.py migrate", help="Run the migrations"}
+createsuperuser = { cmd="python ./manage.py createsuperuser", help="Create a superuser" }
+setup = { cmd="task migrate && task createsuperuser", help="Run the migrations and create a superuser" }
 
-build = "{DOCKER_COMPOSE} build {SERVICES}"
-build-dev = "{DOCKER_COMPOSE_DEV} build {SERVICES_DEV}"
+build = { cmd="{DOCKER_COMPOSE} build {SERVICES}", help="Build images of production services" }
+build-dev = { cmd="{DOCKER_COMPOSE_DEV} build {SERVICES_DEV}", help="Build images of development services" }
 
-up = "{DOCKER_COMPOSE} up -d --force-recreate {SERVICES}"
-up-dev = "{DOCKER_COMPOSE_DEV} up -d --force-recreate {SERVICES_DEV}"
+up = { cmd="{DOCKER_COMPOSE} up -d --force-recreate {SERVICES}", help="Start production services" }
+up-dev = { cmd="{DOCKER_COMPOSE_DEV} up -d --force-recreate {SERVICES_DEV}", help="Start development services" }
