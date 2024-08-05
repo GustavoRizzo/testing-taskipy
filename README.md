@@ -29,7 +29,7 @@ poetry install
 ```
 ## Run Development Mode
 ```bash
-poerty run task build-dev
+poetry run task build-dev
 poetry run task up-dev
 ```
 ## Run Production Mode
