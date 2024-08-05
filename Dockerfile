@@ -47,7 +47,7 @@ FROM django AS dev
 EXPOSE 8000
 
 # Run the dev server
-CMD poetry run python manage.py runserver 0.0.0.0:8000
+CMD poetry run ./manage.py runserver 0.0.0.0:8000
 
 ## Final contains the frontend application served by nginx
 FROM with_mysql AS final
@@ -61,7 +61,7 @@ COPY . /app/
 
 # Collect static files
 WORKDIR /app
-# RUN poetry run python manage.py collectstatic --noinput
+# RUN poetry run ./manage.py collectstatic --noinput
 
 # Open port
 EXPOSE 8000
