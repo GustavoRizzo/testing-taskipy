@@ -16,6 +16,10 @@ then, or if you already run the migrations, you can run the server
 ```bash
 poetry run task server
 ```
+## Discover all the commands
+```bash
+poetry run task --list
+```
 
 # Run Project With Docker
 You still need to have poetry installed, if you don't have it, you can follow the steps in the previous section
