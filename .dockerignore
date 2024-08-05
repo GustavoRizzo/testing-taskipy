@@ -1,0 +1,15 @@
+*/.bundle/
+*/logs
+*/tmp
+.git
+.gitignore
+#*/run.sh
+#*/README.md
+#*/dist/
+.vscode
+.idea
+**/Dockerfile
+**/node_modules
+**/venv
+**/.next
+**/messages
