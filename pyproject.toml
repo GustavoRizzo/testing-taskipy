@@ -18,8 +18,27 @@ taskipy = "^1.13.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.taskipy.variables]
+PYTHON_VERSION = "3.12"
+DOCKER_ENV = {var="PYTHON_VERSION={PYTHON_VERSION}", recursive=true}
+DOCKER_CMD = {var="{DOCKER_ENV} docker", recursive=true}
+DOCKER_COMPOSE = {var="{DOCKER_CMD} compose", recursive=true}
+DOCKER_COMPOSE_DEV = {var="{DOCKER_COMPOSE} -f docker-compose-dev.yml", recursive=true}
+
+SERVICES = "backend"
+SERVICES_DEV = "backend-dev"
+
+[tool.taskipy.settings]
+use_vars = true
+
 [tool.taskipy.tasks]
 server = "python ./manage.py runserver"
 migrate = "python ./manage.py migrate"
 createsuperuser = "python ./manage.py createsuperuser"
 setup = "task migrate && task createsuperuser"
+
+build = "{DOCKER_COMPOSE} build {SERVICES}"
+build-dev = "{DOCKER_COMPOSE_DEV} build {SERVICES_DEV}"
+
+up = "{DOCKER_COMPOSE} up -d --force-recreate {SERVICES}"
+up-dev = "{DOCKER_COMPOSE_DEV} up -d --force-recreate {SERVICES_DEV}"
