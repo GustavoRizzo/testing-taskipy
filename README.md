@@ -1,3 +1,4 @@
+# Run Project Locally
 This project use python 3.12
 install poetry
 ```bash
@@ -14,4 +15,21 @@ poetry run task setup
 then, or if you already run the migrations, you can run the server
 ```bash
 poetry run task server
+```
+
+# Run Project With Docker
+You still need to have poetry installed, if you don't have it, you can follow the steps in the previous section
+```bash
+pip install poetry
+poetry install
+```
+## Run Development Mode
+```bash
+poerty run task build-dev
+poetry run task up-dev
+```
+## Run Production Mode
+```bash
+poetry run task build
+poetry run task up
 ```
